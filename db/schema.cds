@@ -7,6 +7,17 @@ using {
     sap.common.CodeList
 } from '@sap/cds/common';
 
+// using an external service from SAP S/4HANA Cloud
+using {API_BUSINESS_PARTNER as external} from '../srv/external/API_BUSINESS_PARTNER.csn';
+
+
+entity BusinessPartners as
+    projection on external.A_BusinessPartner {
+        key BusinessPartner,
+            BusinessPartnerFullName as FullName,
+    }
+
+
 entity Risks : cuid, managed {
     title                   : String(100);
     owner                   : String;
@@ -14,7 +25,7 @@ entity Risks : cuid, managed {
     descr                   : String;
     miti                    : Association to Mitigations;
     impact                  : Integer;
-    // bp : Association to BusinessPartners;
+    bp                      : Association to BusinessPartners;
     virtual criticality     : Integer;
     virtual PrioCriticality : Integer;
 }
